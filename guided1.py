@@ -36,21 +36,17 @@ def removeDupes(data, store):
 
     data = sorted(data, key=lambda x: x[0], reverse=True)
 
-    uniq = []
-
     curApp = data[0][0]
-    tempFrame = [data[0]]
-    for idx in range(len(data)):
-        if data[idx][0] == curApp:
-            tempFrame.append(data[idx])
+    uniq = [data[0]]
 
+    for app in data:
+        if app[0] == curApp:
+            if int(app[3]) > int(uniq[-1][3]):
+                uniq[-1][3] = app[3]
         else:
-            uniq.append(
-                sorted(tempFrame, key=lambda x: int(x[3]), reverse=True)[0])
-            tempFrame = [data[idx]]
-            curApp = data[idx][0]
+            uniq.append(app)
 
-    return sorted(uniq, key=lambda x: int(x[3]), reverse=True)
+    return uniq
 
 
 def readSet(fname):
