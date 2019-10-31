@@ -34,14 +34,23 @@ def removeDupes(data, store):
     if store == 'apple':
         return data
 
-    data = sorted(data, key=lambda x: int(x[3]), reverse=True)
+    data = sorted(data, key=lambda x: x[0], reverse=True)
+
     uniq = []
 
-    # very slow, not sure how to fix
-    for app in data:
-        if not app[0] in [ae[0] for ae in uniq]:
-            uniq.append(app)
-    return uniq
+    curApp = data[0][0]
+    tempFrame = [data[0]]
+    for idx in range(len(data)):
+        if data[idx][0] == curApp:
+            tempFrame.append(data[idx])
+
+        else:
+            uniq.append(
+                sorted(tempFrame, key=lambda x: int(x[3]), reverse=True)[0])
+            tempFrame = [data[idx]]
+            curApp = data[idx][0]
+
+    return sorted(uniq, key=lambda x: int(x[3]), reverse=True)
 
 
 def readSet(fname):
